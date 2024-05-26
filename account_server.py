@@ -3,6 +3,10 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
+@app.route('/', methods=['GET'])
+def root():
+    return 'OK'
+
 @app.route('/signup', methods=['POST'])
 def signup():
     print(request)
@@ -20,4 +24,4 @@ def close():
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=8080)
+    app.run('0.0.0.0', port=80)
