@@ -24,4 +24,4 @@ def close():
 
 
 if __name__ == '__main__':
-    app.run('52.195.166.164', port=80)
+    app.run('0.0.0.0', port=8080)
