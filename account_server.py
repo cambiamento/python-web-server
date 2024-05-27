@@ -23,10 +23,12 @@ def getuser(user_id):
     return response
 
 
-@app.route('/close', methods=['GET'])
+@app.route('/close', methods=['POST'])
 def close():
-    print(request)
-    return 'OK'
+    auth_header = request.headers.get('Authorization')
+    User_manager = account_manager()
+    response = User_manager.deleteaccount(auth_header)
+    return response
 
 
 if __name__ == '__main__':

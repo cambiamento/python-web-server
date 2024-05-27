@@ -85,3 +85,24 @@ class account_manager:
             else:
                 response = {"message": "Authentication Failed"}
                 return jsonify(response), 401
+
+    def deleteaccount(self, auth_header):
+        with open(self.jsonfilepath, 'r', encoding='utf-8') as f:
+            user_json = json.load(f)
+        try:
+            auth_token = auth_header.split(' ')[1]
+            auth_decoded = base64.b64decode(auth_token).decode('utf-8')
+            input_userid, input_password = auth_decoded.split(':')
+        except Exception:
+            response = {"message": "Authentication Failed"}
+            return jsonify(response), 401
+
+        if all([input_userid in user_json,
+                input_password == user_json[input_userid]["password"]]):
+            user_json.pop(input_userid)
+            self.write_jsonfile(self.jsonfilepath, user_json)
+            response = {"message": "Account and user successfully removed"}
+            return jsonify(response), 200
+        else:
+            response = {"message": "Authentication Failed"}
+            return jsonify(response), 401
