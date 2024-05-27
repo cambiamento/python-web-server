@@ -17,6 +17,7 @@ def getuser(user_id):
     auth_header = request.headers.get('Authorization')
     print('!!!')
     print(auth_header)
+    print('!!!')
     User_manager = account_manager()
     response = User_manager.userinfo(user_id,
                                      auth_header,
