@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = False
 
 
+# signup endpoint for add acount
 @app.route('/signup', methods=['POST'])
 def signup():
     User_manager = account_manager()
@@ -13,6 +14,7 @@ def signup():
     return response
 
 
+# users endpoint for get or change user info
 @app.route('/users/<user_id>', methods=['GET', 'PATCH'])
 def getuser(user_id):
     User_manager = account_manager()
@@ -21,11 +23,11 @@ def getuser(user_id):
     return response
 
 
+# close endpoint for delete account
 @app.route('/close', methods=['POST'])
 def close():
-    auth_header = request.headers.get('Authorization')
     User_manager = account_manager()
-    response = User_manager.deleteaccount(auth_header)
+    response = User_manager.deleteaccount(request)
     return response
 
 
