@@ -60,9 +60,7 @@ class account_manager:
             response = {"message": "Authentication Failed"}
             return jsonify(response), 401
 
-        if input_userid != user_id:
-            response = {"message": "No permission for update"}
-        elif user_id not in user_json:
+        if user_id not in user_json:
             response = {"message": "No User found"}
             return jsonify(response), 404
         else:
@@ -81,6 +79,9 @@ class account_manager:
                               'password' in user_json[user_id]]):
                         response = {"message": "User updation failed",
                                     "cause": "not updatable user_id and password"}
+                    elif input_userid != user_id:
+                        response = {"message": "No permission for update"}
+                        return jsonify(response), 403
             else:
                 response = {"message": "Authentication Failed"}
                 return jsonify(response), 401
