@@ -49,7 +49,9 @@ class account_manager:
                     "cause": "required user_id and password"}
         return jsonify(response), 400
 
-    def userinfo(self, user_id, auth_header, method):
+    def userinfo(self, user_id, request):
+        auth_header = request.headers.get('Authorization')
+        method = request.method
         with open(self.jsonfilepath, 'r', encoding='utf-8') as f:
             user_json = json.load(f)
         try:
@@ -70,18 +72,24 @@ class account_manager:
                                 "user": user_json[user_id]}
                     return jsonify(response), 200
                 else:
-                    if all(['nickname' not in user_json[user_id],
-                            'comment' not in user_json[user_id]]):
+                    data = request.get_json()
+                    if all(['nickname' not in data,
+                            'comment' not in data]):
                         response = {"message": "User updation failed",
                                     "cause": "required nickname or comment"}
                         return jsonify(response), 400
-                    elif any(['user_id' in user_json[user_id],
-                              'password' in user_json[user_id]]):
+                    elif any(['user_id' in data,
+                              'password' in data]):
                         response = {"message": "User updation failed",
                                     "cause": "not updatable user_id and password"}
                     elif input_userid != user_id:
                         response = {"message": "No permission for update"}
                         return jsonify(response), 403
+                    else:
+                        for k, v in data.items():
+                            user_json[user_id][k] = v
+                        response = {"message": "User successfully updated",
+                                    "recipe": [data]}
             else:
                 response = {"message": "Authentication Failed"}
                 return jsonify(response), 401
