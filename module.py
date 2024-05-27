@@ -1,7 +1,4 @@
 import json
-import os
-import msvcrt
-import time
 from flask import jsonify
 
 
@@ -13,17 +10,8 @@ class account_manager:
         self.jsonfilepath = 'User_repository.json'
 
     def write_jsonfile(filepath, data):
-        # Avoid potential PermissionError
-        while True:
-            try:
-                with open(filepath, 'w', encoding='utf-8') as f:
-                    msvcrt.locking(f.fileno(),
-                                   msvcrt.LK_NBLCK,
-                                   os.path.getsize(filepath)+1)
-                    json.dump(data, f)
-                    break
-            except PermissionError:
-                time.sleep(0.1)
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(data, f)
 
     def add_user(self, request):
         if request.is_json:
