@@ -64,7 +64,7 @@ class account_manager:
             response = {"message": "No User found"}
             return jsonify(response), 404
         else:
-            if input_password == user_json[user_id]["password"]:
+            if input_password == user_json[input_userid]["password"]:
                 if method == 'GET':
                     response = {"message": "User details by user_id",
                                 "user": user_json[user_id]}
