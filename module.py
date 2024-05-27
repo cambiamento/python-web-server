@@ -14,6 +14,8 @@ class account_manager:
             json.dump(data, f)
 
     def add_user(self, request):
+        print('!!!')
+        print(request)
         if request.is_json:
             data = request.get_json()
             if 'user_id' in data and 'password' in data:
