@@ -93,6 +93,7 @@ class account_manager:
                             user_json[user_id][k] = v
                         response = {"message": "User successfully updated",
                                     "recipe": [data]}
+                        return jsonify(response), 200
             else:
                 response = {"message": "Authentication Failed"}
                 return jsonify(response), 401
