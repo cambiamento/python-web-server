@@ -1,5 +1,6 @@
 import json
 from flask import jsonify
+import base64
 
 
 class account_manager:
@@ -51,7 +52,35 @@ class account_manager:
     def userinfo(self, user_id, auth_header, method):
         with open(self.jsonfilepath, 'r', encoding='utf-8') as f:
             user_json = json.load(f)
-        if user_id in user_json:
-            response = {"message": "User details by user_id",
-                        "user": user_json[user_id]}
-            return jsonify(response), 200
+        try:
+            auth_token = auth_header.split(' ')[1]
+            auth_decoded = base64.b64decode(auth_token).decode('utf-8')
+            input_userid, input_password = auth_decoded.split(':')
+        except Exception:
+            response = {"message": "Authentication Failed"}
+            return jsonify(response), 401
+
+        if input_userid != user_id:
+            response = {"message": "No permission for update"}
+        elif user_id not in user_json:
+            response = {"message": "No User found"}
+            return jsonify(response), 404
+        else:
+            if input_password == user_json[user_id]["password"]:
+                if method == 'GET':
+                    response = {"message": "User details by user_id",
+                                "user": user_json[user_id]}
+                    return jsonify(response), 200
+                else:
+                    if all(['nickname' not in user_json[user_id],
+                            'comment' not in user_json[user_id]]):
+                        response = {"message": "User updation failed",
+                                    "cause": "required nickname or comment"}
+                        return jsonify(response), 400
+                    elif any(['user_id' in user_json[user_id],
+                              'password' in user_json[user_id]]):
+                        response = {"message": "User updation failed",
+                                    "cause": "not updatable user_id and password"}
+            else:
+                response = {"message": "Authentication Failed"}
+                return jsonify(response), 401
