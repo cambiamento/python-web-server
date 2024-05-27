@@ -5,11 +5,6 @@ from module import account_manager
 app = Flask(__name__)
 
 
-# @app.route('/', methods=['GET'])
-# def root():
-#     return 'OK'
-
-
 @app.route('/signup', methods=['POST'])
 def signup():
     User_manager = account_manager()
@@ -18,9 +13,15 @@ def signup():
 
 
 @app.route('/users/<user_id>', methods=['GET', 'PATCH'])
-def getuser():
-    print(request)
-    return 'OK'
+def getuser(user_id):
+    auth_header = request.headers.get('Authorization')
+    print('!!!')
+    print(auth_header)
+    User_manager = account_manager()
+    response = User_manager.userinfo(user_id,
+                                     auth_header,
+                                     request.method)
+    return response
 
 
 @app.route('/close', methods=['GET'])
