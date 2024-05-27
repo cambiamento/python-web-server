@@ -73,6 +73,9 @@ class account_manager:
                     return jsonify(response), 200
                 else:
                     data = request.get_json()
+                    print('!!!')
+                    print(data)
+                    print('!!!')
                     if all(['nickname' not in data,
                             'comment' not in data]):
                         response = {"message": "User updation failed",
