@@ -14,8 +14,6 @@ class account_manager:
             json.dump(data, f)
 
     def add_user(self, request):
-        print('!!!')
-        print(request)
         if request.is_json:
             data = request.get_json()
             if 'user_id' in data and 'password' in data:
@@ -49,3 +47,11 @@ class account_manager:
         response = {"message": "Account creation failed",
                     "cause": "required user_id and password"}
         return jsonify(response), 400
+
+    def userinfo(self, user_id, auth_header, method):
+        with open(self.jsonfilepath, 'r', encoding='utf-8') as f:
+            user_json = json.load(f)
+        if user_id in user_json:
+            response = {"message": "User details by user_id",
+                        "user": user_json[user_id]}
+            return jsonify(response), 200
