@@ -3,6 +3,7 @@ from module import account_manager
 
 
 app = Flask(__name__)
+app.config['DEBUG'] = False
 
 
 @app.route('/signup', methods=['POST'])
