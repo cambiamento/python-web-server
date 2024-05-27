@@ -86,7 +86,7 @@ class account_manager:
                         response = {"message": "User updation failed",
                                     "cause": "not updatable user_id and password"}
                     elif input_userid != user_id:
-                        response = {"message": "No permission for update"}
+                        response = {"message": "No permission for Update"}
                         return jsonify(response), 403
                     else:
                         for k, v in data.items():
