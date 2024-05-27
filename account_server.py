@@ -15,11 +15,9 @@ def signup():
 
 @app.route('/users/<user_id>', methods=['GET', 'PATCH'])
 def getuser(user_id):
-    auth_header = request.headers.get('Authorization')
     User_manager = account_manager()
     response = User_manager.userinfo(user_id,
-                                     auth_header,
-                                     request.method)
+                                     request)
     return response
 
 
