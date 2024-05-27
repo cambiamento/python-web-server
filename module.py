@@ -9,7 +9,7 @@ class account_manager:
     def __init__(self):
         self.jsonfilepath = 'User_repository.json'
 
-    def write_jsonfile(filepath, data):
+    def write_jsonfile(self, filepath, data):
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(data, f)
 
