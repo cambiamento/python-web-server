@@ -5,9 +5,9 @@ from module import account_manager
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def root():
-    return 'OK'
+# @app.route('/', methods=['GET'])
+# def root():
+#     return 'OK'
 
 
 @app.route('/signup', methods=['POST'])
